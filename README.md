@@ -19,18 +19,83 @@ alphabet shifted cyclically to the left compared to the previous alphabet, corre
 
 ## ALGORITHM:
 
-STEP-1: Arrange the alphabets in row and column of a 26*26 matrix.
-STEP-2: Circulate the alphabets in each row to position left such that the first letter is attached to last.
-STEP-3: Repeat this process for all 26 rows and construct the final key matrix.
-STEP-4: The keyword and the plain text is read from the user.
-STEP-5: The characters in the keyword are repeated sequentially so as to match with that of the plain text.
-STEP-6: Pick the first letter of the plain text and that of the keyword as the row indices and column indices respectively.
-STEP-7: The junction character where these two meet forms the cipher character.
-STEP-8: Repeat the above steps to generate the entire cipher text.
+STEP-1: Arrange the alphabets in row and column of a 26*26 matrix.<br>
+STEP-2: Circulate the alphabets in each row to position left such that the first letter is attached to last.<br>
+STEP-3: Repeat this process for all 26 rows and construct the final key matrix.<br>
+STEP-4: The keyword and the plain text is read from the user.<br>
+STEP-5: The characters in the keyword are repeated sequentially so as to match with that of the plain text.<br>
+STEP-6: Pick the first letter of the plain text and that of the keyword as the row indices and column indices respectively.<br>
+STEP-7: The junction character where these two meet forms the cipher character.<br>
+STEP-8: Repeat the above steps to generate the entire cipher text.<br>
 
 
 ## PROGRAM
+```
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
 
+int main() {
+    char text[100], key[100], result[100];
+    int choice;
+
+    while (1) {
+        printf("\n===== Vigenere Cipher =====\n");
+        printf("1. Encryption\n");
+        printf("2. Decryption\n");
+        printf("3. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        if (choice == 3) {
+            printf("Exiting the program...\n");
+            break;
+        }
+
+        if (choice != 1 && choice != 2) {
+            printf("Invalid choice!\n");
+            continue;
+        }
+
+        printf("Enter Text: ");
+        scanf("%s", text);
+
+        printf("Enter Key: ");
+        scanf("%s", key);
+
+        int keyLength = strlen(key);
+        int i, j = 0;
+
+        for (i = 0; text[i] != '\0'; i++) {
+            if (isalpha(text[i])) {
+                char t = toupper(text[i]);
+                char k = toupper(key[j % keyLength]);
+
+                if (choice == 1)
+                    result[i] = ((t - 'A') + (k - 'A')) % 26 + 'A';
+                else
+                    result[i] = ((t - 'A') - (k - 'A') + 26) % 26 + 'A';
+
+                j++;
+            }
+            else {
+                result[i] = text[i];
+            }
+        }
+
+        result[i] = '\0';
+
+        if (choice == 1)
+            printf("Encrypted Text: %s\n", result);
+        else
+            printf("Decrypted Text: %s\n", result);
+    }
+
+    return 0;
+}
+```
 ## OUTPUT
+<img width="1918" height="912" alt="image" src="https://github.com/user-attachments/assets/51772453-6dbf-41ac-8405-32dfdae30043" />
 
 ## RESULT
+The Vigenere Cipher substitution technique is successfully is implemented using C program.
